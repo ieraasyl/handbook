@@ -1,5 +1,11 @@
 # BBA in Business Administration
 
+The Graduate School of Business currently lists a 242 ECTS minimum, made up of 74 ECTS in the university core, 120 in BBA courses, and 48 in non-business electives. [Current BBA curriculum](https://gsb.nu.edu.kz/bbacoursedescription)
+
+The school also offers a joint BBA in Eurasian Business with the Hong Kong University of Science and Technology. Students spend the first two years at NU and the last two at HKUST. [Joint BBA program](https://gsb.nu.edu.kz/bbaeabu)
+
+The requirements and course plan below come from the 2024 intake handbook. [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
 ## Major confirmation
 
 By the end of year 1, be in good academic standing and pass BUS 101, ECON 101, MATH 161, and ACCT 201 with C- or higher. If one of the four is below C- or was withdrawn, it can be retaken in year 2 fall. The handbook allows one retake per course, including after withdrawal. The major remains unconfirmed through the year 2 fall review.
@@ -174,6 +180,6 @@ Grades shown are the progression minimums listed in the handbook. A blank grade 
 
 ## Differences within the handbook
 
-The degree requirements list 240 ECTS. The sample schedule totals 242 or 244 ECTS. The core table gives MATH 161 as 6 ECTS and the schedule gives 8 ECTS. Page 13 gives C- as the general course minimum and for BUS 101 confirmation. The sample schedule lists B- for BUS 101 and D for several core and elective entries.
+The 2024 handbook lists a 240 ECTS degree minimum. Its sample schedule totals 242 or 244 ECTS. The core table gives MATH 161 as 6 ECTS and the schedule gives 8 ECTS. Page 13 gives C- as the general course minimum and for BUS 101 confirmation. The sample schedule lists B- for BUS 101 and D for several core and elective entries.
 
 Handbook pages 13 to 16. [Canva source](https://www.canva.com/design/DAGH5nfr2_Q/CZO4-kHrZNWEcjjPjo2lVw/view)

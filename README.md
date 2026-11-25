@@ -1,17 +1,19 @@
 # Nazarbayev University undergraduate academic handbook
 
-For students admitted in 2024. The Academic Advising Office’s 94-page handbook is the source for these files. Course plans are the handbook’s recommendations. The calendar covers the 2024 to 2025 academic year.
+The program requirements, course plans, and minors come from the Academic Advising Office’s handbook for students admitted in 2024. For requirements that apply to your intake, see the [official undergraduate handbooks](https://aao.nu.edu.kz/handbook), including the 2025 and 2026 editions.
 
 ## Academic information
 
 - [Academic advising, appointments, and contact information](academic-advising.md)
-- [Academic calendar](academic-calendar.md)
+- [Academic calendars for 2026 to 2027 and 2024 to 2025](academic-calendar.md)
 - [Grading scale and GPA calculations](grades-and-gpa.md)
 - [Undergraduate grade distribution reports](grade-distribution/README.md)
 - [Degree and core curriculum requirements](degree-and-core-requirements.md)
 - [Additional minors](minors.md)
 
 ## Programs by school
+
+The program index follows the 2024 intake handbook.
 
 ### Graduate School of Business
 
