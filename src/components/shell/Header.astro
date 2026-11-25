@@ -1,0 +1,50 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import config from "virtual:starlight/user-config";
+import Search from "../Search.astro";
+import { Button } from "../starwind/button";
+import { SidebarTrigger } from "../starwind/sidebar";
+import PageOutlineToggle from "./PageOutlineToggle.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const { hasSidebar, siteTitle, siteTitleHref, toc } = Astro.locals.starlightRoute;
+const social = config.social ?? [];
+---
+
+<div class="mx-auto flex h-full max-w-[108rem] items-center gap-2 px-3 sm:gap-4 sm:px-5">
+  {hasSidebar && (
+    <SidebarTrigger size="icon" class="shrink-0 print:hidden" aria-label="Toggle navigation">
+      <Icon slot="icon" name="bars" size="1.2rem" />
+    </SidebarTrigger>
+  )}
+  <a
+    href={siteTitleHref}
+    class="handbook-focus min-w-0 shrink-0 rounded-sm text-xl font-semibold tracking-tight text-foreground no-underline"
+  >
+    {siteTitle}
+  </a>
+  <div class="ms-auto min-w-0 sm:mx-auto print:hidden">
+    <Search />
+  </div>
+  <div
+    class:list={[
+      "items-center gap-2 print:hidden",
+      hasSidebar ? "hidden min-[50rem]:flex" : "flex",
+    ]}
+  >
+    {social.map(({ href, icon, label }) => (
+      <Button
+        href={href}
+        rel="me"
+        aria-label={label}
+        variant="social"
+        size="icon"
+        class="hidden shrink-0 min-[50rem]:inline-flex"
+      >
+        <Icon name={icon} size="1.1rem" />
+      </Button>
+    ))}
+    <ThemeToggle />
+    {toc && <PageOutlineToggle />}
+  </div>
+</div>

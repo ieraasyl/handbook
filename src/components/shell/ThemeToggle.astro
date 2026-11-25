@@ -1,0 +1,42 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import { Button } from "../starwind/button";
+---
+
+<Button
+  variant="outline"
+  size="icon"
+  class="group shrink-0"
+  aria-label="Theme is Auto. Switch to Light."
+  data-theme-mode="system"
+>
+  <Icon name="laptop" class="hidden group-data-[theme-mode=system]:block" size="1.25rem" />
+  <Icon name="sun" class="hidden group-data-[theme-mode=light]:block" size="1.25rem" />
+  <Icon name="moon" class="hidden group-data-[theme-mode=dark]:block" size="1.25rem" />
+</Button>
+
+<script>
+  import { initThemeController } from "@starwind-ui/astro/theme";
+
+  const theme = initThemeController(document, { storageKey: "handbook-theme" });
+  const buttons = document.querySelectorAll<HTMLButtonElement>("button[data-theme-mode]");
+  const nextMode = { system: "light", light: "dark", dark: "system" } as const;
+  const labels = { system: "Auto", light: "Light", dark: "Dark" };
+
+  const update = () => {
+    const mode = theme.getTheme();
+    const label = `Theme is ${labels[mode]}. Switch to ${labels[nextMode[mode]]}.`;
+    document.documentElement.dataset.theme = theme.getResolvedTheme();
+    for (const button of buttons) {
+      button.dataset.themeMode = mode;
+      button.setAttribute("aria-label", label);
+      button.title = label;
+    }
+  };
+
+  for (const button of buttons) {
+    button.addEventListener("click", () => theme.setTheme(nextMode[theme.getTheme()]));
+  }
+  theme.subscribe("themeChange", update);
+  update();
+</script>

@@ -1,0 +1,45 @@
+---
+import { archive } from "../../lib/navigation.mjs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../starwind/breadcrumb";
+
+const { entry } = Astro.locals.starlightRoute;
+const { metadata, title } = entry.data;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const archivePath = `${base}/${archive[0].slug}/`;
+const isIndex = entry.id === archive[1].slug;
+const parent =
+  metadata?.kind === "report"
+    ? { label: metadata.academicYear, href: `${archivePath}#${metadata.academicYear}` }
+    : metadata?.kind === "longitudinal"
+      ? { label: archive[1].label, href: `${base}/${archive[1].slug}/` }
+      : undefined;
+---
+
+{(parent || isIndex) && (
+  <Breadcrumb class="mb-2 print:hidden" data-pagefind-ignore>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href={archivePath}>Grade archive</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      {parent && (
+        <>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={parent.href}>{parent.label}</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+        </>
+      )}
+      <BreadcrumbItem class="min-w-0 max-w-full">
+        <BreadcrumbPage title={title}>{title}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+)}

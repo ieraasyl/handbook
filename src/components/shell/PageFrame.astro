@@ -1,0 +1,26 @@
+---
+import { SidebarProvider } from "../starwind/sidebar";
+
+const { hasSidebar } = Astro.locals.starlightRoute;
+const Frame = hasSidebar ? SidebarProvider : "div";
+const sidebarOptions = hasSidebar
+  ? {
+      mobileQuery: "(width < 50rem)",
+      persistOpen: true,
+      persistenceKey: "handbook-sidebar",
+      style: { "--sidebar-width": "16rem" },
+    }
+  : {};
+---
+
+<Frame class="min-h-dvh flex-col bg-background print:min-h-0 print:bg-white" {...sidebarOptions}>
+  <header class="sticky top-0 z-30 h-(--sl-nav-height) border-b border-border bg-card print:static">
+    <slot name="header" />
+  </header>
+  <div class="mx-auto flex w-full max-w-[108rem] print:block">
+    {hasSidebar && <slot name="sidebar" />}
+    <div class="min-w-0 flex-1">
+      <slot />
+    </div>
+  </div>
+</Frame>

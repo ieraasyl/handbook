@@ -1,0 +1,10 @@
+---
+import { ThemeInitScript } from "@starwind-ui/astro/theme";
+---
+
+<ThemeInitScript storageKey="handbook-theme" />
+<script is:inline>
+  document.documentElement.dataset.theme = document.documentElement.classList.contains("dark")
+    ? "dark"
+    : "light";
+</script>

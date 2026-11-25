@@ -1,0 +1,45 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import { Item, ItemActions, ItemContent } from "../starwind/item";
+
+const { dir, pagination } = Astro.locals.starlightRoute;
+const arrows =
+  dir === "rtl"
+    ? (["right-arrow", "left-arrow"] as const)
+    : (["left-arrow", "right-arrow"] as const);
+const links = [
+  {
+    entry: pagination.prev,
+    icon: arrows[0],
+    rel: "prev",
+    label: Astro.locals.t("page.previousLink"),
+  },
+  { entry: pagination.next, icon: arrows[1], rel: "next", label: Astro.locals.t("page.nextLink") },
+];
+---
+
+{links.some(({ entry }) => entry) && (
+  <nav aria-label="Page navigation" class="grid gap-2 sm:grid-cols-2 print:hidden">
+    {links.map(
+      ({ entry, icon, rel, label }) =>
+        entry && (
+          <Item
+            as="a"
+            href={entry.href}
+            rel={rel}
+            variant="navigation"
+            size="sm"
+            class={rel === "next" ? "flex-row-reverse text-end sm:col-start-2" : undefined}
+          >
+            <ItemActions>
+              <Icon name={icon} size="1.1rem" class="shrink-0 text-primary-accent" />
+            </ItemActions>
+            <ItemContent compact class="min-w-0 wrap-anywhere">
+              <span class="text-xs text-muted-foreground">{label}</span>
+              <span>{entry.label}</span>
+            </ItemContent>
+          </Item>
+        ),
+    )}
+  </nav>
+)}

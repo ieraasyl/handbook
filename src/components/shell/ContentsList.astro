@@ -1,0 +1,23 @@
+---
+import type { StarlightRouteData } from "@astrojs/starlight/route-data";
+
+interface Props {
+  items: NonNullable<StarlightRouteData["toc"]>["items"];
+}
+const { items } = Astro.props;
+---
+
+<ul class="list-none p-0">
+  {items.map((heading) => (
+    <li>
+      <a href={`#${heading.slug}`} class="handbook-contents-link">
+        {heading.text}
+      </a>
+      {heading.children.length > 0 && (
+        <div class="ms-2 border-s border-border ps-1">
+          <Astro.self items={heading.children} />
+        </div>
+      )}
+    </li>
+  ))}
+</ul>

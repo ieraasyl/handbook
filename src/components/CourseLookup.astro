@@ -1,0 +1,134 @@
+---
+import { Input } from "./starwind/input";
+import { Card, CardContent } from "./starwind/card";
+---
+
+<Card
+  as="section"
+  size="sm"
+  id="find-course"
+  class="[[hidden]]:hidden"
+  aria-labelledby="course-label"
+  data-pagefind-ignore
+  hidden
+>
+  <CardContent>
+    <form role="search" aria-labelledby="course-label" autocomplete="off">
+      <label class="block font-semibold text-foreground" for="course-query" id="course-label">
+        Find a course in this report
+      </label>
+      <Input
+        variant="solid"
+        class="mt-1.5 block max-w-sm"
+        id="course-query"
+        name="q"
+        type="search"
+        autocomplete="off"
+        placeholder="Course code or title"
+      />
+    </form>
+    <p role="status" class="text-sm text-muted-foreground empty:m-0"></p>
+    <ul class="list-none p-0" hidden></ul>
+  </CardContent>
+</Card>
+
+<script>
+  import { courseCodes, courseQuery } from "../lib/course-code";
+
+  const lookup = document.querySelector<HTMLElement>("#find-course");
+  const input = lookup?.querySelector("input");
+  const status = lookup?.querySelector('[role="status"]');
+  const results = lookup?.querySelector("ul");
+  const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-course-code]")).flatMap(
+    (row) => {
+      const { courseCode = "", courseTitle = "", courseSection = "" } = row.dataset;
+      const anchor = row.querySelector<HTMLElement>("th[id]");
+      if (!anchor) return [];
+      const group = row.closest(".handbook-table-with-titles")?.getAttribute("aria-label");
+      return [
+        {
+          anchor,
+          codes: courseCodes(courseCode),
+          name: courseTitle ? `${courseCode} (${courseTitle})` : courseCode,
+          text: `${courseCode} ${courseTitle}`.toLowerCase(),
+          compactCode: courseCode.replace(/[\s-]+/g, "").toLowerCase(),
+          section: courseSection,
+          group,
+        },
+      ];
+    },
+  );
+
+  if (lookup && input && status && results && rows.length) {
+    input.form?.addEventListener("submit", (event) => event.preventDefault());
+    lookup.hidden = false;
+    const limit = 20;
+    const update = () => {
+      const value = input.value.trim();
+      const query = value.toLowerCase();
+      const course = courseQuery(value);
+      const compact = query.replace(/[\s-]+/g, "");
+      const matches = query
+        ? rows.filter((row) =>
+            course
+              ? row.codes.includes(course.code) &&
+                (!course.section || row.section === course.section)
+              : row.text.includes(query) || (compact && row.compactCode.includes(compact)),
+          )
+        : [];
+
+      results.replaceChildren(
+        ...matches.slice(0, limit).map((row) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#${row.anchor.id}`;
+          link.textContent = [row.name, row.section && `Section ${row.section}`]
+            .filter(Boolean)
+            .join(", ");
+          item.append(link);
+          if (row.group) {
+            const group = document.createElement("small");
+            group.className = "block text-sm text-muted-foreground";
+            group.textContent = row.group;
+            item.append(group);
+          }
+          return item;
+        }),
+      );
+      results.hidden = matches.length === 0;
+      status.textContent = !query
+        ? ""
+        : matches.length === 0
+          ? "No matching courses in this report."
+          : matches.length > limit
+            ? `Showing the first ${limit} of ${matches.length} matching rows. Enter more of the code or title to narrow the results.`
+            : `${matches.length} matching ${matches.length === 1 ? "row" : "rows"}.`;
+      return matches;
+    };
+    input.addEventListener("input", update);
+
+    const params = new URLSearchParams(location.search);
+    const code = params.get("course");
+    if (code) {
+      const section = params.get("section");
+      input.value = section ? `${code} section ${section}` : code;
+      const matches = update();
+      const linkedRow = document.getElementById(location.hash.slice(1));
+      if (!linkedRow?.matches("th[id^='course-']")) {
+        const match = matches.length === 1 ? matches[0] : undefined;
+        const anchor = match?.anchor ?? lookup;
+        const url = new URL(location.href);
+        if (match) {
+          url.searchParams.delete("course");
+          url.searchParams.delete("section");
+        }
+        url.hash = anchor.id;
+        history.replaceState(history.state, "", url);
+        requestAnimationFrame(() => {
+          if (match) anchor.focus({ preventScroll: true });
+          anchor.scrollIntoView({ block: "start", inline: "nearest" });
+        });
+      }
+    }
+  }
+</script>

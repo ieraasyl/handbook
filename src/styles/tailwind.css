@@ -1,0 +1,231 @@
+@layer base, starlight, theme, components, utilities;
+@import "@astrojs/starlight-tailwind";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@import "tw-animate-css";
+
+@source "../components";
+@source "../lib";
+@source "../pages";
+
+@theme static {
+  --color-accent-200: var(--color-blue-200);
+  --color-accent-600: var(--color-blue-700);
+  --color-accent-900: var(--color-blue-900);
+  --color-accent-950: var(--color-blue-950);
+  --color-gray-100: var(--color-neutral-100);
+  --color-gray-200: var(--color-neutral-200);
+  --color-gray-300: var(--color-neutral-300);
+  --color-gray-400: var(--color-neutral-400);
+  --color-gray-500: var(--color-neutral-500);
+  --color-gray-600: var(--color-neutral-600);
+  --color-gray-700: var(--color-neutral-700);
+  --color-gray-800: var(--color-neutral-800);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-accent: var(--primary-accent);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-outline: var(--outline);
+  --color-ring: var(--outline);
+  --color-sidebar: var(--card);
+  --color-sidebar-foreground: var(--foreground);
+  --color-sidebar-border: var(--border);
+  --font-heading: var(--font-sans);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+}
+
+@layer theme {
+  :root {
+    --background: var(--color-white);
+    --foreground: var(--color-neutral-950);
+    --card: var(--color-white);
+    --popover: var(--color-white);
+    --primary: var(--color-blue-700);
+    --primary-foreground: var(--color-neutral-50);
+    --primary-accent: var(--color-blue-700);
+    --muted: var(--color-neutral-100);
+    --muted-foreground: var(--color-neutral-600);
+    --accent: var(--color-neutral-100);
+    --border: var(--color-neutral-200);
+    --input: var(--color-neutral-200);
+    --outline: var(--color-neutral-400);
+    --radius: 0.625rem;
+  }
+
+  @media screen {
+    :root[data-theme="dark"] {
+      --background: var(--color-neutral-950);
+      --foreground: var(--color-neutral-50);
+      --card: var(--color-neutral-900);
+      --popover: var(--color-neutral-900);
+      --primary-accent: var(--color-blue-400);
+      --muted: var(--color-neutral-800);
+      --muted-foreground: var(--color-neutral-400);
+      --accent: var(--color-neutral-700);
+      --border: --alpha(var(--color-neutral-50) / 10%);
+      --input: --alpha(var(--color-neutral-50) / 15%);
+      --outline: var(--color-neutral-500);
+    }
+  }
+}
+
+@layer utilities {
+  :root,
+  :root[data-theme="light"] {
+    --sl-nav-height: 3.75rem;
+    --sl-color-black: var(--background);
+    --sl-color-white: var(--foreground);
+    --sl-color-bg-inline-code: var(--muted);
+    --sl-color-hairline-light: var(--border);
+    --sl-color-hairline: var(--border);
+    --sl-color-text-accent: var(--primary-accent);
+    --sl-color-bg-accent: var(--primary);
+    --sl-color-text-invert: var(--primary-foreground);
+  }
+}
+
+@utility handbook-focus {
+  @apply focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-accent;
+}
+
+@utility handbook-nav-link {
+  @apply handbook-focus flex min-h-9 items-center gap-2 rounded-md border-0 bg-transparent px-2.5 py-1.5 text-sm leading-snug wrap-anywhere text-foreground no-underline hover:bg-muted aria-[current=page]:bg-muted aria-[current=page]:font-semibold aria-[current=page]:text-primary-accent;
+}
+
+@utility handbook-contents-link {
+  @apply handbook-focus block rounded-sm px-2 py-1.5 text-sm leading-snug wrap-anywhere text-muted-foreground no-underline hover:bg-muted hover:text-foreground aria-[current=location]:font-semibold aria-[current=location]:text-primary-accent;
+}
+
+@layer components {
+  .content-panel + .content-panel {
+    @apply border-t border-border print:border-0;
+  }
+
+  .handbook-search mark {
+    @apply rounded-sm bg-muted font-medium text-foreground;
+  }
+
+  .handbook-source-note {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .handbook-source-note a {
+    @apply text-inherit underline underline-offset-2 hover:text-foreground focus-visible:text-foreground;
+  }
+
+  /* Keep the sticky layout in one place for Markdown-generated tables. */
+  html:has(.handbook-archive-table) {
+    --sl-content-width: 80rem;
+  }
+
+  .handbook-table {
+    @apply mt-0 max-w-full overflow-auto;
+  }
+
+  .handbook-table table {
+    @apply table;
+  }
+
+  .handbook-calendar-table table {
+    @apply w-full table-fixed;
+  }
+
+  .handbook-calendar-table th:first-child {
+    @apply w-[28%];
+  }
+
+  .handbook-calendar-table :is(th, td) {
+    @apply align-top;
+  }
+
+  .handbook-calendar-table th:target {
+    @apply bg-muted;
+    scroll-margin-block-start: calc(var(--sl-nav-height) + 0.75rem);
+  }
+
+  .sl-markdown-content a[href^="#20"] {
+    @apply whitespace-nowrap;
+  }
+
+  .handbook-archive-table :is(th, td) {
+    @apply whitespace-nowrap;
+  }
+
+  .handbook-course-table {
+    @apply max-h-[min(60svh,32rem)] scroll-pt-(--handbook-table-header-height,6rem) print:max-h-none;
+  }
+
+  .handbook-course-table :is(thead th, tbody th[scope="row"]) {
+    @apply sticky bg-background print:static;
+  }
+
+  .handbook-course-table thead th {
+    @apply top-0 z-2;
+  }
+
+  .handbook-course-table thead th:not(:first-child) {
+    @apply max-w-36 whitespace-normal;
+  }
+
+  .handbook-course-table th:first-child {
+    @apply inset-s-0;
+  }
+
+  .handbook-course-table thead th:first-child {
+    @apply z-3;
+  }
+
+  .handbook-course-table tbody th {
+    @apply z-1;
+  }
+
+  .handbook-course-table :is(th, td):not(:first-child) {
+    @apply text-end;
+  }
+
+  .handbook-table-with-titles :is(th, td):nth-child(2) {
+    @apply min-w-40 text-start whitespace-normal;
+  }
+
+  .handbook-course-table tr:has(th:target) > :is(th, td) {
+    @apply bg-blue-100 dark:bg-blue-950;
+  }
+
+  @media (width <= 30rem) {
+    .handbook-calendar-table table {
+      @apply text-xs min-[23rem]:text-sm;
+    }
+
+    .handbook-calendar-table :is(th, td) {
+      @apply px-1 wrap-anywhere;
+    }
+
+    .handbook-gpa-example table {
+      @apply w-full table-fixed text-sm;
+    }
+
+    .handbook-gpa-example th:first-child {
+      @apply w-[43%];
+    }
+
+    .handbook-gpa-example :is(th, td) {
+      @apply px-1 wrap-anywhere;
+    }
+  }
+}

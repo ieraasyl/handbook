@@ -1,0 +1,103 @@
+---
+import StarlightPage, {
+  type StarlightPageProps,
+} from "@astrojs/starlight/components/StarlightPage.astro";
+import { getEntry } from "astro:content";
+import { archive, guidance, programGroups } from "../lib/navigation.mjs";
+import { Item, ItemActions, ItemContent } from "../components/starwind/item";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const route = (slug: string) => `${base}/${slug}/`;
+const title = "Undergraduate Handbook";
+const metadataTitle = `${title} for Nazarbayev University`;
+const frontmatter = {
+  title,
+  head: [
+    { tag: "title", content: metadataTitle },
+    { tag: "meta", attrs: { property: "og:title", content: metadataTitle } },
+    { tag: "meta", attrs: { property: "og:type", content: "website" } },
+  ],
+} satisfies StarlightPageProps["frontmatter"];
+const academicHeading = { depth: 2, slug: "academic-information", text: "Academic information" };
+const programsHeading = { depth: 2, slug: "programs-by-school", text: "Programs by school" };
+const tasks = [
+  { href: route("academic-calendar"), label: "Academic dates" },
+  { href: `#${programsHeading.slug}`, label: "Find my program" },
+  { href: route(archive[0].slug), label: "Look up past grades" },
+  { href: `${route("academic-advising")}#appointments`, label: "Book advising" },
+];
+
+const schools = await Promise.all(
+  programGroups.map(async ({ label, items }) => ({
+    heading: { depth: 3, slug: label.toLowerCase().replaceAll(" ", "-"), text: label },
+    programs: await Promise.all(
+      items.map(async ({ slug }) => {
+        const program = await getEntry("docs", slug);
+        if (program?.data.metadata?.kind !== "program" || program.data.metadata.school !== label) {
+          throw new Error(`Missing program or incorrect school for ${slug} in ${label}`);
+        }
+        return { href: route(slug), label: program.data.sidebar.label ?? program.data.title };
+      }),
+    ),
+  })),
+);
+const headings = [academicHeading, programsHeading, ...schools.map(({ heading }) => heading)];
+---
+
+<StarlightPage {frontmatter} {headings}>
+  <p class="max-w-[45ch] text-lg text-muted-foreground">
+    Academic guidance for Nazarbayev University undergraduates.
+  </p>
+  <nav class="@container" aria-label="Common tasks">
+    {/* eslint-disable-next-line shadcn/no-unknown-classes -- Starlight uses not-content to opt out of Markdown styles. */}
+    <ul class="not-content grid list-none grid-cols-1 gap-2.5 p-0 @sm:grid-cols-2">
+      {tasks.map(({ href, label }) => (
+        <li>
+          <Item as="a" href={href} variant="navigation" size="sm">
+            <ItemContent>{label}</ItemContent>
+            <ItemActions tone="accent" aria-hidden="true">
+              →
+            </ItemActions>
+          </Item>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <section aria-labelledby={academicHeading.slug}>
+    <h2 id={academicHeading.slug}>{academicHeading.text}</h2>
+    <ul>
+      {guidance.map(({ slug, label }) => (
+        <li>
+          <a href={route(slug)}>{label}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-labelledby={programsHeading.slug}>
+    <h2 id={programsHeading.slug}>{programsHeading.text}</h2>
+    <p>
+      This directory follows the 2024 intake handbook. For other intakes, see the{" "}
+      <a href="https://aao.nu.edu.kz/handbook">official undergraduate handbooks</a>.
+    </p>
+    {schools.map(({ heading, programs }) => (
+      <Fragment>
+        <h3 id={heading.slug}>{heading.text}</h3>
+        <ul>
+          {programs.map((program) => (
+            <li>
+              <a href={program.href}>{program.label}</a>
+            </li>
+          ))}
+        </ul>
+      </Fragment>
+    ))}
+    <p class="handbook-source-note">
+      Handbook pages 1 to 94.{" "}
+      <a href="https://www.canva.com/design/DAGH5nfr2_Q/CZO4-kHrZNWEcjjPjo2lVw/view">
+        Canva source
+      </a>
+    </p>
+  </section>
+</StarlightPage>

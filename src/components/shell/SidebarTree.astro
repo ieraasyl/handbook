@@ -1,0 +1,104 @@
+---
+import { Collapsible } from "@starwind-ui/astro/collapsible";
+import { Icon } from "@astrojs/starlight/components";
+import type { StarlightRouteData } from "@astrojs/starlight/route-data";
+
+type Entry = StarlightRouteData["sidebar"][number];
+interface Props {
+  entries?: Entry[];
+  group?: string;
+}
+
+const { entries = Astro.locals.starlightRoute.sidebar, group = "" } = Astro.props;
+const containsCurrent = (entry: Entry): boolean =>
+  entry.type === "link" ? entry.isCurrent : entry.entries.some(containsCurrent);
+---
+
+<ul class:list={["list-none p-0", group ? "space-y-0.5" : "space-y-3"]}>
+  {entries.map((entry) => {
+    if (entry.type === "link") {
+      const { class: extraClass, ...attrs } = entry.attrs;
+      return (
+        <li>
+          <a
+            {...attrs}
+            href={entry.href}
+            aria-current={entry.isCurrent ? "page" : undefined}
+            class:list={["handbook-nav-link", extraClass]}
+          >
+            {entry.label}
+            {entry.badge && (
+              <span class="rounded-sm bg-muted px-1 text-xs">{entry.badge.text}</span>
+            )}
+          </a>
+        </li>
+      );
+    }
+    const key = `${group}/${entry.label}`;
+    const current = containsCurrent(entry);
+    return (
+      <li>
+        <Collapsible.Root defaultOpen={current || !entry.collapsed} data-nav-group={key}>
+          <Collapsible.Trigger class="handbook-nav-link group w-full justify-between text-start font-medium">
+            <span>{entry.label}</span>
+            <Icon
+              name="right-caret"
+              size="1rem"
+              class="shrink-0 motion-safe:transition-transform group-data-[state=open]:rotate-90"
+            />
+          </Collapsible.Trigger>
+          <Collapsible.Panel class="ms-3 border-s border-border ps-2">
+            <Astro.self entries={entry.entries} group={key} />
+          </Collapsible.Panel>
+        </Collapsible.Root>
+      </li>
+    );
+  })}
+</ul>
+
+{!group && <script is:inline>
+  {
+    const tree = document.currentScript.previousElementSibling;
+    for (const group of tree.querySelectorAll("[data-nav-group]")) {
+      const key = `handbook:nav:${group.dataset.navGroup}`;
+      let open = group.hasAttribute("data-default-open");
+      try {
+        const saved = sessionStorage.getItem(key);
+        if (saved === "true" || saved === "false") open = saved === "true";
+      } catch {}
+      const state = open ? "open" : "closed";
+      const trigger = group.querySelector(":scope > [data-sw-collapsible-trigger]");
+      const panel = group.querySelector(":scope > [data-sw-collapsible-panel]");
+      group.dataset.defaultOpen = String(open);
+      group.dataset.state = state;
+      trigger.dataset.state = state;
+      panel.dataset.state = state;
+      trigger.setAttribute("aria-expanded", String(open));
+      panel.hidden = !open;
+
+      group.addEventListener("starwind:open-change", (event) => {
+        if (event.target !== group) return;
+        queueMicrotask(() => {
+          if (event.defaultPrevented || event.detail.isCanceled) return;
+          try {
+            sessionStorage.setItem(key, String(event.detail.open));
+          } catch {}
+        });
+      });
+    }
+
+    const scroller = tree.closest('[data-sidebar="content"]');
+    if (scroller?.closest("[data-sw-sidebar]")) {
+      const key = "handbook:nav-scroll";
+      try {
+        scroller.scrollTop = Number(sessionStorage.getItem(key));
+      } catch {}
+      window.addEventListener("pagehide", () => {
+        if (!scroller.offsetWidth) return;
+        try {
+          sessionStorage.setItem(key, String(scroller.scrollTop));
+        } catch {}
+      });
+    }
+  }
+</script>}

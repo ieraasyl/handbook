@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { breadcrumb } from "./variants";
+
+type Props = HTMLAttributes<"nav">;
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<nav
+  {...rest}
+  data-sw-breadcrumb
+  aria-label="breadcrumb"
+  class={breadcrumb({ class: className })}
+  data-slot="breadcrumb"
+>
+  <slot />
+</nav>

@@ -1,0 +1,116 @@
+---
+import SidebarPrimitive from "@starwind-ui/astro/sidebar";
+import type { HTMLAttributes } from "astro/types";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../sheet";
+import {
+  sidebar,
+  sidebarContainer,
+  sidebarGap,
+  sidebarInner,
+  sidebarMobileContent,
+} from "./variants";
+
+type Props = HTMLAttributes<"div"> & {
+  side?: "left" | "right";
+  variant?: "sidebar" | "floating" | "inset";
+  collapsible?: "offcanvas" | "icon" | "none";
+  mobileTitle?: string;
+};
+
+const {
+  side = "left",
+  variant = "sidebar",
+  collapsible = "offcanvas",
+  mobileTitle = "Navigation",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const mobileStyle = { "--sidebar-width": "18rem" };
+---
+
+{collapsible === "none" ? (
+  <div
+    {...rest}
+    class={[
+      "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ")}
+    data-slot="sidebar"
+  >
+    <slot />
+  </div>
+) : (
+  <>
+    <SidebarPrimitive.Sidebar
+      class={sidebar({ class: className })}
+      data-collapsible-mode={collapsible}
+      collapsible={collapsible}
+      data-variant={variant}
+      variant={variant}
+      data-side={side}
+      side={side}
+      data-slot="sidebar"
+    >
+      <script is:inline>
+        {
+          const sidebar = document.currentScript.parentElement;
+          const provider = sidebar.closest("[data-sw-sidebar-provider]");
+          if (provider) {
+            const { persistOpen, persistenceKey, persistenceStorage, mobileQuery } =
+              provider.dataset;
+            let expanded = provider.dataset.state === "expanded";
+            // Restore the state before the browser lays out the sidebar gap.
+            if (
+              persistOpen === "true" &&
+              persistenceKey &&
+              (!persistenceStorage || persistenceStorage === "localStorage")
+            ) {
+              try {
+                const saved = localStorage.getItem(persistenceKey);
+                if (saved === "true" || saved === "false") expanded = saved === "true";
+              } catch {}
+            }
+            const state = expanded ? "expanded" : "collapsed";
+            provider.dataset.state = state;
+            sidebar.dataset.state = state;
+            sidebar.dataset.collapsible = expanded ? "" : sidebar.dataset.collapsibleMode;
+            const open = matchMedia(mobileQuery).matches
+              ? provider.dataset.mobileOpen
+              : String(expanded);
+            provider
+              .querySelector('[data-slot="sidebar-trigger"]')
+              ?.setAttribute("aria-expanded", open);
+          }
+        }
+      </script>
+      <div data-slot="sidebar-gap" class={sidebarGap({ variant })} />
+
+      <div {...rest} class={sidebarContainer({ side, variant })} data-slot="sidebar-container">
+        <div data-sidebar="sidebar" data-slot="sidebar-inner" class={sidebarInner({ variant })}>
+          <slot />
+        </div>
+      </div>
+    </SidebarPrimitive.Sidebar>
+
+    <Sheet class="min-[50rem]:hidden print:hidden" data-sidebar="mobile">
+      <SheetContent
+        side={side}
+        class={sidebarMobileContent()}
+        style={mobileStyle}
+        data-sidebar="sidebar"
+      >
+        <SheetHeader class="min-h-14 justify-center border-b border-border pe-14">
+          <SheetTitle>{mobileTitle}</SheetTitle>
+          <SheetDescription class="sr-only">Handbook navigation</SheetDescription>
+        </SheetHeader>
+
+        <div class="flex min-h-0 flex-1 flex-col">
+          <slot />
+        </div>
+      </SheetContent>
+    </Sheet>
+  </>
+)}

@@ -1,0 +1,18 @@
+---
+import DialogPrimitive from "@starwind-ui/astro/dialog";
+import type { HTMLAttributes } from "astro/types";
+import type { VariantProps } from "tailwind-variants";
+import { dialogTitle } from "./variants";
+
+type Props = HTMLAttributes<"h2"> & VariantProps<typeof dialogTitle>;
+
+const { size, class: className, ...rest } = Astro.props;
+---
+
+<DialogPrimitive.Title
+  class={dialogTitle({ size, class: className })}
+  {...rest}
+  data-slot="dialog-title"
+>
+  <slot />
+</DialogPrimitive.Title>

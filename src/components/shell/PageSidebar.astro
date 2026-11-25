@@ -1,0 +1,82 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import { Collapsible } from "@starwind-ui/astro/collapsible";
+import ContentsList from "./ContentsList.astro";
+
+const { toc } = Astro.locals.starlightRoute;
+const label = Astro.locals.t("tableOfContents.onThisPage");
+---
+
+{toc && (
+  <>
+    <nav
+      aria-label={label}
+      data-handbook-contents
+      class="border-b border-border bg-card min-[72rem]:hidden"
+    >
+      <Collapsible.Root class="relative">
+        <Collapsible.Trigger class="handbook-nav-link group h-(--sl-mobile-toc-height) w-full justify-between rounded-none px-4 font-medium">
+          {label}
+          <Icon
+            name="right-caret"
+            size="1rem"
+            class="shrink-0 motion-safe:transition-transform group-data-[state=open]:rotate-90"
+          />
+        </Collapsible.Trigger>
+        <Collapsible.Panel class="absolute inset-x-0 top-full max-h-[55dvh] overflow-y-auto border-b border-border bg-popover px-3 py-2 shadow-lg">
+          <ContentsList items={toc.items} />
+        </Collapsible.Panel>
+      </Collapsible.Root>
+    </nav>
+    <nav
+      aria-label={label}
+      data-handbook-contents
+      class="hidden max-h-[calc(100dvh-var(--sl-nav-height))] overflow-y-auto border-s border-border px-3 py-6 min-[72rem]:block"
+    >
+      <h2 class="mb-2 px-2 text-sm font-semibold text-foreground">{label}</h2>
+      <ContentsList items={toc.items} />
+    </nav>
+  </>
+)}
+
+<script>
+  const navs = Array.from(document.querySelectorAll("[data-handbook-contents]"));
+  const links = navs.map((nav) =>
+    Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')),
+  );
+  const headings = (links[0] ?? []).map((link) =>
+    document.getElementById(decodeURIComponent(link.hash.slice(1))),
+  );
+  if (headings.length) {
+    let current = -1;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const top = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + 1;
+      let next = -1;
+      for (const [index, heading] of headings.entries()) {
+        if (heading && heading.getBoundingClientRect().top <= top) next = index;
+      }
+      if (current === next) return;
+      for (const list of links) {
+        list[current]?.removeAttribute("aria-current");
+        list[next]?.setAttribute("aria-current", "location");
+      }
+      current = next;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    schedule();
+    const mobile = navs[0];
+    const trigger = mobile.querySelector<HTMLButtonElement>("[data-sw-collapsible-trigger]");
+    mobile.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest('a[href^="#"]')) {
+        trigger?.click();
+        trigger?.focus({ preventScroll: true });
+      }
+    });
+  }
+</script>

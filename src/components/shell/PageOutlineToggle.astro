@@ -1,0 +1,45 @@
+---
+import LayoutSidebarRight from "@tabler/icons/outline/layout-sidebar-right.svg";
+import { Button } from "../starwind/button";
+---
+
+<Button
+  id="page-outline-toggle"
+  variant="disclosure"
+  size="icon"
+  class="shrink-0 max-[72rem]:hidden [[hidden]]:hidden"
+  aria-label="Toggle page outline"
+  aria-controls="page-outline"
+  aria-expanded="true"
+  hidden
+>
+  <LayoutSidebarRight aria-hidden="true" />
+</Button>
+
+<script is:inline>
+  {
+    const button = document.getElementById("page-outline-toggle");
+    const root = document.documentElement;
+    const storageKey = "handbook-outline-hidden";
+    let hidden = false;
+    try {
+      hidden = localStorage.getItem(storageKey) === "true";
+    } catch {}
+
+    const update = () => {
+      root.toggleAttribute("data-outline-hidden", hidden);
+      button.setAttribute("aria-expanded", String(!hidden));
+      button.title = hidden ? "Show page outline" : "Hide page outline";
+    };
+
+    update();
+    button.hidden = false;
+    button.addEventListener("click", () => {
+      hidden = !hidden;
+      update();
+      try {
+        localStorage.setItem(storageKey, String(hidden));
+      } catch {}
+    });
+  }
+</script>

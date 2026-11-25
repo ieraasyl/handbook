@@ -1,0 +1,305 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import { Checkbox } from "@starwind-ui/astro/checkbox";
+import { Button } from "./starwind/button";
+import { button } from "./starwind/button/variants";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "./starwind/dialog";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./starwind/input-group";
+
+const label = Astro.locals.t("search.label");
+const filters = ["Academic guidance", "Programs", "Grade reports"];
+---
+
+<Dialog data-handbook-search>
+  <DialogTrigger asChild>
+    <Button
+      variant="outline"
+      size="search"
+      class="w-full min-[50rem]:w-[clamp(12rem,28vw,25rem)] min-[50rem]:justify-start"
+      aria-keyshortcuts="Control+k Meta+k"
+    >
+      <Icon name="magnifier" class="size-4 shrink-0" />
+      <span>{label}</span>
+      <kbd
+        class="ms-auto hidden rounded-sm border border-border px-1.5 text-xs text-muted-foreground min-[50rem]:inline"
+        aria-hidden="true"
+      >
+        Ctrl K
+      </kbd>
+    </Button>
+  </DialogTrigger>
+  <DialogContent variant="search" aria-labelledby="handbook-search-title">
+    <Fragment slot="close" />
+    <div class="sticky top-0 z-10 flex flex-col gap-3 bg-popover p-3 sm:p-4">
+      <div class="flex min-h-11 items-center pe-12">
+        <DialogTitle id="handbook-search-title" size="sm">
+          {label}
+        </DialogTitle>
+      </div>
+      {import.meta.env.DEV ? (
+        <p class="text-sm text-muted-foreground">{Astro.locals.t("search.devWarning")}</p>
+      ) : (
+        <>
+          <form role="search" aria-labelledby="handbook-search-title" autocomplete="off">
+            <InputGroup>
+              <InputGroupAddon align="inline-start" aria-hidden="true">
+                <Icon name="magnifier" class="size-4" />
+              </InputGroupAddon>
+              <InputGroupInput
+                name="q"
+                type="search"
+                aria-label="Search the handbook"
+                placeholder="Program, policy, or course code"
+                autocomplete="off"
+              />
+            </InputGroup>
+          </form>
+          <fieldset
+            class="m-0 flex flex-wrap gap-2 border-0 p-0 [[hidden]]:hidden"
+            hidden
+            data-search-filters
+          >
+            <legend class="sr-only">Content type</legend>
+            {filters.map((type) => (
+              <Checkbox.Root
+                nativeButton
+                value={type}
+                data-search-filter={type}
+                class={button({
+                  variant: "outline",
+                  size: "sm",
+                  class:
+                    "px-2.5 aria-checked:border-primary-accent aria-checked:bg-muted aria-checked:text-primary-accent",
+                })}
+              >
+                <span data-filter-label>{type}</span>
+              </Checkbox.Root>
+            ))}
+          </fieldset>
+        </>
+      )}
+      <DialogClose asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          class="absolute inset-e-3 top-3 sm:inset-e-4 sm:top-4"
+          aria-label="Close search"
+        >
+          <Icon name="close" size="1rem" />
+        </Button>
+      </DialogClose>
+    </div>
+    {!import.meta.env.DEV && (
+      <div class="border-border has-[>p:not(:empty)]:border-t has-[>p:not(:empty)]:p-3 sm:has-[>p:not(:empty)]:p-4">
+        <p role="status" class="text-sm text-muted-foreground" data-search-status></p>
+        <ol
+          class="mt-2 list-none space-y-2 p-0 empty:hidden"
+          aria-label="Search results"
+          data-search-results
+        ></ol>
+        <Button variant="outline" class="mt-3 w-full [[hidden]]:hidden" data-search-more hidden>
+          Load more results
+        </Button>
+      </div>
+    )}
+    <template data-search-result>
+      <li class="rounded-lg border border-border bg-card p-3">
+        <h3 class="leading-snug">
+          <a
+            class="handbook-focus rounded-sm font-semibold wrap-anywhere text-primary-accent underline-offset-3 hover:underline"
+            data-result-link
+          ></a>
+        </h3>
+        <p class="mt-1 text-sm wrap-anywhere text-muted-foreground" data-result-excerpt></p>
+        <ul
+          class="mt-2 list-none border-s border-border ps-3 empty:hidden"
+          data-result-sections
+        ></ul>
+      </li>
+    </template>
+    <template data-search-section>
+      <li class="py-1 text-sm">
+        <a
+          class="handbook-focus rounded-sm font-medium wrap-anywhere text-foreground underline-offset-3 hover:underline"
+          data-result-link
+        ></a>
+        <p class="text-muted-foreground" data-result-excerpt></p>
+      </li>
+    </template>
+  </DialogContent>
+</Dialog>
+
+<script>
+  import type { CheckboxCheckedChangeDetails } from "@starwind-ui/astro/checkbox";
+  import { loadPagefind, searchResultUrl, type SearchResults } from "../lib/pagefind-search";
+
+  const root = document.querySelector("[data-handbook-search]");
+  const trigger = root?.querySelector<HTMLButtonElement>("[data-sw-dialog-trigger]");
+  const close = root?.querySelector<HTMLButtonElement>("[data-sw-dialog-close]");
+  const popup = root?.querySelector("dialog");
+  const input = popup?.querySelector<HTMLInputElement>('input[type="search"]');
+  const filterPanel = popup?.querySelector<HTMLElement>("[data-search-filters]");
+  const status = popup?.querySelector("[data-search-status]");
+  const list = popup?.querySelector("[data-search-results]");
+  const more = popup?.querySelector<HTMLButtonElement>("[data-search-more]");
+  const resultTemplate = popup?.querySelector<HTMLTemplateElement>("[data-search-result]");
+  const sectionTemplate = popup?.querySelector<HTMLTemplateElement>("[data-search-section]");
+
+  if (trigger && close && popup) {
+    if (/Mac|iPhone|iPad/.test(navigator.platform))
+      trigger.querySelector("kbd")!.textContent = "⌘ K";
+    window.addEventListener("keydown", (event) => {
+      if (
+        event.key.toLowerCase() !== "k" ||
+        !(event.metaKey || event.ctrlKey) ||
+        trigger.offsetWidth === 0
+      )
+        return;
+      if (!popup.open && document.querySelector("dialog[open]")) return;
+      event.preventDefault();
+      (popup.open ? close : trigger).click();
+    });
+    popup.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a[href]")) close.click();
+    });
+  }
+
+  if (
+    popup &&
+    input &&
+    filterPanel &&
+    status &&
+    list &&
+    more &&
+    resultTemplate &&
+    sectionTemplate
+  ) {
+    input.form?.addEventListener("submit", (event) => event.preventDefault());
+    const filterGroup = "Content type";
+    const filters = Array.from(filterPanel.querySelectorAll<HTMLElement>("[data-search-filter]"));
+    const selected = new Set<string>();
+    const pageSize = 5;
+    let revision = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let results: SearchResults["results"] = [];
+
+    input.addEventListener(
+      "focus",
+      () => {
+        void loadPagefind().catch(() => {});
+      },
+      { once: true },
+    );
+
+    function resultItem(
+      template: HTMLTemplateElement,
+      url: string,
+      title: string,
+      excerpt: string,
+      query: string,
+    ) {
+      const item = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const link = item.querySelector<HTMLAnchorElement>("[data-result-link]")!;
+      link.href = searchResultUrl(url, query);
+      link.textContent = title;
+      // Pagefind encodes source text and supplies only its search-highlight markup.
+      item.querySelector("[data-result-excerpt]")!.innerHTML = excerpt;
+      return item;
+    }
+
+    const renderPage = async (query: string, version: number) => {
+      const start = list.children.length;
+      const matches = await Promise.all(
+        results.slice(start, start + pageSize).map((result) => result.data()),
+      );
+      if (version !== revision) return;
+      list.append(
+        ...matches.map((result) => {
+          const item = resultItem(
+            resultTemplate,
+            result.url,
+            result.meta.title ?? result.url,
+            result.excerpt,
+            query,
+          );
+          item.querySelector("[data-result-sections]")!.append(
+            ...result.sub_results
+              .filter((section) => section.url !== result.url && !section.url.endsWith("#_top"))
+              .slice(0, 3)
+              .map((section) =>
+                resultItem(sectionTemplate, section.url, section.title, section.excerpt, query),
+              ),
+          );
+          return item;
+        }),
+      );
+      more.hidden = list.children.length >= results.length;
+      status.textContent =
+        results.length === 0
+          ? "No results found."
+          : `Showing ${list.children.length} of ${results.length} ${results.length === 1 ? "result" : "results"}.`;
+    };
+
+    const search = async (query: string, version: number) => {
+      try {
+        const pagefind = await loadPagefind();
+        const matches = await pagefind.search(
+          query,
+          selected.size
+            ? {
+                filters: { any: [...selected].map((value) => ({ [filterGroup]: value })) },
+              }
+            : undefined,
+        );
+        if (version !== revision) return;
+        results = matches.results;
+        for (const filter of filters) {
+          const type = filter.dataset.searchFilter!;
+          filter.querySelector("[data-filter-label]")!.textContent =
+            `${type} (${matches.totalFilters[filterGroup]?.[type] ?? 0})`;
+        }
+        filterPanel.hidden = false;
+        await renderPage(query, version);
+      } catch {
+        if (version === revision)
+          status.textContent = "Search couldn’t load. Edit your query to try again.";
+      }
+    };
+
+    const updateSearch = (delay: number) => {
+      clearTimeout(timer);
+      const version = ++revision;
+      const query = input.value.trim();
+      results = [];
+      list.replaceChildren();
+      more.hidden = true;
+      status.textContent = query ? "Searching…" : "";
+      if (query) timer = setTimeout(() => void search(query, version), delay);
+      else filterPanel.hidden = true;
+    };
+
+    input.addEventListener("input", () => updateSearch(150));
+    for (const filter of filters) {
+      filter.addEventListener("starwind:checked-change", (event) => {
+        const { checked } = (event as CustomEvent<CheckboxCheckedChangeDetails>).detail;
+        const type = filter.dataset.searchFilter!;
+        if (checked) selected.add(type);
+        else selected.delete(type);
+        updateSearch(0);
+      });
+    }
+    more.addEventListener("click", async () => {
+      const version = revision;
+      more.disabled = true;
+      const firstNew = list.children.length;
+      try {
+        await renderPage(input.value.trim(), version);
+        if (version === revision) list.children[firstNew]?.querySelector("a")?.focus();
+      } catch {
+        if (version === revision) status.textContent = "Couldn’t load more results. Try again.";
+      } finally {
+        more.disabled = false;
+      }
+    });
+  }
+</script>

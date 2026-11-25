@@ -1,0 +1,72 @@
+---
+import DefaultMarkdownContent from "@astrojs/starlight/components/MarkdownContent.astro";
+import ArchiveCourseFinder from "./ArchiveCourseFinder.astro";
+import CourseLookup from "./CourseLookup.astro";
+import UpcomingDates from "./UpcomingDates.astro";
+import { guidance } from "../lib/navigation.mjs";
+
+const { entry } = Astro.locals.starlightRoute;
+const kind = entry.data.metadata?.kind;
+const hasCourseLookup = kind === "report" || kind === "longitudinal";
+const group =
+  kind === "program"
+    ? "Programs"
+    : entry.id.startsWith("grade-distribution")
+      ? "Grade reports"
+      : guidance.some(({ slug }) => slug === entry.id)
+        ? "Academic guidance"
+        : undefined;
+---
+
+{group && <span hidden data-pagefind-filter={`Content type:${group}`}></span>}
+{kind === "program" && (
+  <span
+    hidden
+    data-pagefind-meta="program[data-program-title]"
+    data-program-title={entry.data.title}
+  ></span>
+)}
+<DefaultMarkdownContent>
+  {entry.id === "grade-distribution" && <ArchiveCourseFinder />}
+  {entry.id === "academic-calendar" && entry.rendered?.html && (
+    <UpcomingDates html={entry.rendered.html} />
+  )}
+  {hasCourseLookup && <CourseLookup />}
+  <slot />
+</DefaultMarkdownContent>
+
+<script>
+  const observer = new ResizeObserver((entries) => {
+    for (const { target } of entries) {
+      const frame = target.closest(".handbook-table-frame");
+      const table = frame?.querySelector<HTMLElement>(".handbook-table");
+      const hint = frame?.querySelector<HTMLElement>(".handbook-table-hint");
+      if (!table || !hint) continue;
+      const scrollsSideways = table.scrollWidth > table.clientWidth + 1;
+      const scrollsDown = table.scrollHeight > table.clientHeight + 1;
+      hint.hidden = !scrollsSideways;
+      table.tabIndex = scrollsSideways || scrollsDown ? 0 : -1;
+      if (scrollsSideways) table.setAttribute("aria-describedby", hint.id);
+      else table.removeAttribute("aria-describedby");
+      const header = table.querySelector("thead");
+      if (header && table.classList.contains("handbook-course-table")) {
+        table.style.setProperty(
+          "--handbook-table-header-height",
+          `${Math.ceil(header.getBoundingClientRect().height) + 4}px`,
+        );
+      }
+    }
+  });
+
+  document.querySelectorAll(".handbook-table-frame").forEach((frame, index) => {
+    const hint = frame.querySelector<HTMLElement>(".handbook-table-hint");
+    const region = frame.querySelector(".handbook-table");
+    const table = region?.querySelector("table");
+    if (!hint || !region || !table) return;
+    hint.id = `table-scroll-hint-${index + 1}`;
+    observer.observe(region);
+    observer.observe(table);
+    const header = table.tHead;
+    if (header && region.classList.contains("handbook-course-table")) observer.observe(header);
+  });
+</script>

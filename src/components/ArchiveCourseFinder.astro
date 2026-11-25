@@ -1,0 +1,200 @@
+---
+import { Card, CardContent } from "./starwind/card";
+import {
+  Combobox,
+  ComboboxClear,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+} from "./starwind/combobox";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<Card as="section" size="sm" aria-labelledby="archive-finder-title" data-pagefind-ignore>
+  <CardContent>
+    <div class="mb-4" data-catalog={`${base}/grade-distribution/courses.json`} hidden>
+      <h2 id="archive-finder-title" class="mt-0 mb-3 text-xl">
+        Find past grades
+      </h2>
+      <form role="search" aria-labelledby="archive-finder-title" autocomplete="off">
+        <Combobox autoComplete="off">
+          <ComboboxLabel>Course code or title</ComboboxLabel>
+          <ComboboxInput
+            class="mt-1.5 max-w-lg"
+            name="q"
+            type="search"
+            placeholder="e.g. CSCI 151"
+            spellcheck={false}
+            showTrigger={false}
+          >
+            <ComboboxClear class="me-1" aria-label="Clear course search" />
+          </ComboboxInput>
+          <ComboboxContent
+            size="sm"
+            class="max-h-[min(16rem,var(--sw-floating-available-height,16rem))] max-w-(--sw-floating-available-width,calc(100vw-2rem)) overflow-auto"
+          >
+            <ComboboxEmpty slot="empty" compact>
+              Enter a course code or title.
+            </ComboboxEmpty>
+          </ComboboxContent>
+        </Combobox>
+      </form>
+      <p class="text-sm text-muted-foreground empty:m-0" role="status"></p>
+      <section aria-labelledby="archive-results-title" hidden>
+        <h3 id="archive-results-title" class="text-lg"></h3>
+        {/* eslint-disable-next-line shadcn/no-unknown-classes -- Starlight uses not-content to opt out of Markdown styles. */}
+        <ol class="not-content mt-3 list-none p-0"></ol>
+      </section>
+      <template>
+        <ComboboxItem value="" showIndicator={false} />
+      </template>
+    </div>
+    <a href="#semester-reports-by-academic-year">Browse by year</a>
+  </CardContent>
+</Card>
+
+<script>
+  import type {
+    ComboboxInputValueChangeDetails,
+    ComboboxValueChangeDetails,
+  } from "@starwind-ui/astro/combobox";
+  import { findArchiveCourses, type GradeCatalog, type GradeRow } from "../lib/grade-catalog";
+
+  const picker = document.querySelector<HTMLElement>("[data-catalog]");
+  const input = picker?.querySelector<HTMLInputElement>("[data-sw-combobox-input]");
+  const clear = picker?.querySelector<HTMLButtonElement>("[data-sw-combobox-clear]");
+  const list = picker?.querySelector("[data-sw-combobox-list]");
+  const empty = picker?.querySelector("[data-sw-combobox-empty]");
+  const status = picker?.querySelector('[role="status"]');
+  const results = picker?.querySelector("section");
+  const title = results?.querySelector("h3");
+  const reportList = results?.querySelector("ol");
+  const option = picker?.querySelector<HTMLTemplateElement>("template")?.content.firstElementChild;
+  const catalogUrl = picker?.dataset.catalog;
+
+  if (
+    picker &&
+    input &&
+    clear &&
+    list &&
+    empty &&
+    status &&
+    results &&
+    title &&
+    reportList &&
+    option &&
+    catalogUrl
+  ) {
+    input.form?.addEventListener("submit", (event) => event.preventDefault());
+    picker.hidden = false;
+    let catalog: GradeCatalog | undefined;
+    let request: Promise<GradeCatalog> | undefined;
+
+    function loadCatalog(url: string) {
+      request ??= fetch(url)
+        .then((response) => {
+          if (!response.ok) throw new Error(`Grade index returned ${response.status}`);
+          return response.json() as Promise<GradeCatalog>;
+        })
+        .catch((error: unknown) => {
+          request = undefined;
+          throw error;
+        });
+      return request;
+    }
+
+    picker.addEventListener("starwind:input-value-change", async (event) => {
+      const { inputValue, reason } = (event as CustomEvent<ComboboxInputValueChangeDetails>).detail;
+      if (reason === "item-press") return;
+      const query = inputValue.trim();
+      list.replaceChildren();
+      if (!query) {
+        empty.textContent = "Enter a course code or title.";
+        if (reason === "input" && !results.hidden) {
+          // Let Starwind finish the input change before clearing its selected value.
+          queueMicrotask(() => {
+            if (!input.value.trim() && !results.hidden) clear.click();
+          });
+        }
+        return;
+      }
+
+      if (!catalog) empty.textContent = "Loading courses…";
+      try {
+        catalog ??= await loadCatalog(catalogUrl);
+      } catch {
+        if (query === input.value.trim()) {
+          empty.textContent = "Couldn’t load courses. Edit your search to try again.";
+        }
+        return;
+      }
+      if (query !== input.value.trim()) return;
+
+      const matches = findArchiveCourses(catalog.courses, query);
+      empty.textContent = "No courses found. Try a different code or title.";
+      list.replaceChildren(
+        ...matches.map(({ course, index, title }) => {
+          const item = option.cloneNode(true) as HTMLElement;
+          // Starwind also filters against the value. Include the input for normalized code matches.
+          item.dataset.value = `${index} ${query}`;
+          item.firstElementChild!.textContent = title ? `${course.code}: ${title}` : course.code;
+          return item;
+        }),
+      );
+    });
+
+    picker.addEventListener("starwind:value-change", (event) => {
+      const { value } = (event as CustomEvent<ComboboxValueChangeDetails>).detail;
+      const course = catalog?.courses[Number(value?.split(" ", 1)[0])];
+      if (!course || !catalog) {
+        results.hidden = true;
+        reportList.replaceChildren();
+        status.textContent = "";
+        return;
+      }
+      const reports = catalog.reports;
+      const byReport = new Map<number, GradeRow[]>();
+      for (const row of course.rows) {
+        const reportRows = byReport.get(row[0]) ?? [];
+        reportRows.push(row);
+        byReport.set(row[0], reportRows);
+      }
+
+      title.textContent = `Reports for ${course.code}`;
+      reportList.replaceChildren(
+        ...[...byReport].map(([reportIndex, rows]) => {
+          const report = reports[reportIndex];
+          const item = document.createElement("li");
+          item.className = "border-t border-border py-2.5";
+          const heading = document.createElement("h4");
+          heading.className = "font-medium text-foreground";
+          heading.textContent = report.title;
+          const sections = document.createElement("ul");
+          sections.className = "mt-1 flex list-none flex-wrap gap-x-4 p-0";
+          for (const [index, [, anchor, section]] of rows.entries()) {
+            const entry = document.createElement("li");
+            const link = document.createElement("a");
+            const label = section
+              ? `Section ${section}`
+              : rows.length > 1
+                ? `Grade row ${index + 1}`
+                : "View grade row";
+            link.href = `${report.href}#${anchor}`;
+            link.textContent = label;
+            link.className =
+              "inline-flex min-h-11 items-center text-primary-accent underline-offset-4 hover:underline";
+            link.setAttribute("aria-label", `${label}, ${course.code}, ${report.title}`);
+            entry.append(link);
+            sections.append(entry);
+          }
+          item.append(heading, sections);
+          return item;
+        }),
+      );
+      results.hidden = false;
+      status.textContent = `${byReport.size} ${byReport.size === 1 ? "report" : "reports"} found.`;
+    });
+  }
+</script>

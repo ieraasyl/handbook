@@ -1,0 +1,111 @@
+---
+import { readCalendar } from "../lib/calendar-content";
+import { calendarToday, upcomingDates } from "../lib/calendar-dates";
+import { Card, CardContent, CardHeader } from "./starwind/card";
+
+interface Props {
+  html: string;
+}
+
+const { official, terms } = readCalendar(Astro.props.html);
+const today = calendarToday();
+const { term, dates } = upcomingDates(terms, today);
+---
+
+{terms.length > 0 && (
+  <Card
+    as="section"
+    size="sm"
+    id="upcoming-dates"
+    class="mb-6"
+    aria-labelledby="upcoming-dates-title"
+    data-terms={JSON.stringify(terms)}
+    data-date={today}
+    data-source={official}
+    data-pagefind-ignore
+  >
+    <CardHeader>
+      <h2 id="upcoming-dates-title" class="m-0 text-xl">
+        Upcoming academic dates
+      </h2>
+    </CardHeader>
+    <CardContent>
+      <h3 class="mt-1.5 mb-3 text-base text-primary-accent" hidden={!term}>
+        {term?.label}
+      </h3>
+      <dl class="m-0" hidden={!term}>
+        {dates.map(({ label, display }) => (
+          <div class="m-0 flex flex-wrap justify-between gap-x-4 border-t border-border py-2.5">
+            <dt class="font-semibold text-foreground">{label}</dt>
+            <dd class="m-0 p-0">{display}</dd>
+          </div>
+        ))}
+      </dl>
+      <p data-calendar-no-dates hidden={!!term}>
+        Check the Registrar for new dates.
+      </p>
+      <div class="flex flex-wrap gap-x-4">
+        <a
+          class="min-h-11 items-center [&:not([hidden])]:inline-flex"
+          data-calendar-term-link
+          href={term && `#${term.anchor}`}
+          hidden={!term}
+        >
+          Full term calendar
+        </a>
+        <a
+          class="inline-flex min-h-11 items-center"
+          data-calendar-source
+          href={term?.source ?? official}
+        >
+          Registrar’s calendar
+        </a>
+      </div>
+      <template>
+        <div class="m-0 flex flex-wrap justify-between gap-x-4 border-t border-border py-2.5">
+          <dt class="font-semibold text-foreground"></dt>
+          <dd class="m-0 p-0"></dd>
+        </div>
+      </template>
+    </CardContent>
+  </Card>
+)}
+
+<script>
+  import { calendarToday, upcomingDates, type CalendarTerm } from "../lib/calendar-dates";
+
+  const panel = document.querySelector<HTMLElement>("#upcoming-dates");
+  const heading = panel?.querySelector("h3");
+  const items = panel?.querySelector("dl");
+  const empty = panel?.querySelector<HTMLParagraphElement>("[data-calendar-no-dates]");
+  const termLink = panel?.querySelector<HTMLAnchorElement>("[data-calendar-term-link]");
+  const source = panel?.querySelector<HTMLAnchorElement>("[data-calendar-source]");
+  const item = panel?.querySelector("template")?.content.firstElementChild;
+
+  if (panel && heading && items && empty && termLink && source && item && panel.dataset.terms) {
+    const terms = JSON.parse(panel.dataset.terms) as CalendarTerm[];
+    const update = () => {
+      const today = calendarToday();
+      if (today === panel.dataset.date) return;
+      panel.dataset.date = today;
+      const { term, dates } = upcomingDates(terms, today);
+      heading.textContent = term?.label ?? "";
+      termLink.setAttribute("href", term ? `#${term.anchor}` : "#upcoming-dates");
+      const href = term?.source ?? panel.dataset.source;
+      if (href) source.href = href;
+      items.replaceChildren(
+        ...dates.map(({ label, display }) => {
+          const date = item.cloneNode(true) as HTMLElement;
+          date.querySelector("dt")!.textContent = label;
+          date.querySelector("dd")!.textContent = display;
+          return date;
+        }),
+      );
+      heading.hidden = items.hidden = termLink.hidden = !term;
+      empty.hidden = !!term;
+    };
+    update();
+    document.addEventListener("visibilitychange", update);
+    window.setInterval(update, 60_000);
+  }
+</script>

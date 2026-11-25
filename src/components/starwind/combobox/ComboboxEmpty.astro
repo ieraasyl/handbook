@@ -1,0 +1,18 @@
+---
+import ComboboxPrimitive from "@starwind-ui/astro/combobox";
+import type { HTMLAttributes } from "astro/types";
+import type { VariantProps } from "tailwind-variants";
+import { comboboxEmpty } from "./variants";
+
+type Props = HTMLAttributes<"div"> & VariantProps<typeof comboboxEmpty>;
+
+const { compact, class: className, ...rest } = Astro.props;
+---
+
+<ComboboxPrimitive.Empty
+  class={comboboxEmpty({ compact, class: className })}
+  {...rest}
+  data-slot="combobox-empty"
+>
+  <slot />
+</ComboboxPrimitive.Empty>
