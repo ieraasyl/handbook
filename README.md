@@ -1,8 +1,10 @@
-# handbook
+# Undergraduate Handbook
 
-A guide to advising, degree requirements, and grades for Nazarbayev University undergraduates.
+Academic calendars, advising, degree requirements, and historical grade distributions by course for Nazarbayev University undergraduates.
 
-The program requirements, course plans, and minors below are for students admitted in 2024. If you started in a different year, check the [official undergraduate handbooks](https://aao.nu.edu.kz/handbook) for your intake.
+**[Open the handbook](https://handbook.ieraasyl.workers.dev/)** | [Look up course grade distributions](https://handbook.ieraasyl.workers.dev/grade-distribution/)
+
+Program requirements, course plans, and minors are for students admitted in 2024. For other intakes, see the [official undergraduate handbooks](https://aao.nu.edu.kz/handbook).
 
 ## Academic information
 
@@ -53,3 +55,14 @@ The program requirements, course plans, and minors below are for students admitt
 - [BSc in Nursing (listed only)](src/content/docs/programs/nursing.md)
 
 [Original 2024 intake handbook on Canva (pages 1 to 94)](https://www.canva.com/design/DAGH5nfr2_Q/CZO4-kHrZNWEcjjPjo2lVw/view)
+
+## Contributing
+
+Handbook content lives in [`src/content/docs`](src/content/docs). For corrections, [open an issue](https://github.com/ieraasyl/handbook/issues/new) with the affected page and a link to the university source, if available.
+
+Run the Astro site locally with [Vite+](https://viteplus.dev/).
+
+```sh
+vp install
+vp run dev
+```
