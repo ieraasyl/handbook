@@ -7,6 +7,7 @@ For students admitted in 2024. The Academic Advising Office’s 94-page handbook
 - [Academic advising, appointments, and contact information](academic-advising.md)
 - [Academic calendar](academic-calendar.md)
 - [Grading scale and GPA calculations](grades-and-gpa.md)
+- [Undergraduate grade distribution reports](grade-distribution/README.md)
 - [Degree and core curriculum requirements](degree-and-core-requirements.md)
 - [Additional minors](minors.md)
 

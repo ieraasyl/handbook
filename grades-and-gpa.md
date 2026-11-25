@@ -31,4 +31,8 @@ Multiply each course’s ECTS by the quality points for its letter grade. Add th
 
 Divide the total grade points from graded courses taken in residence at NU by the total graded ECTS attempted in those courses. GPA tracks academic performance and can affect eligibility for honors or graduate school.
 
+## Historical grade distributions
+
+See the [undergraduate grade distribution archive](grade-distribution/README.md) for reported grades by school, course, and term.
+
 Handbook pages 6 to 7. [Canva source](https://www.canva.com/design/DAGH5nfr2_Q/CZO4-kHrZNWEcjjPjo2lVw/view)
