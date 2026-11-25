@@ -1,6 +1,14 @@
 # Undergraduate grade distribution
 
+[Handbook home](../README.md)
+
 The Institutional Research and Analytics archive lists undergraduate grade reports from 2013-2014 through 2025-2026. It also links to a longitudinal analysis covering 2011-2012 through 2017-2018.
+
+**Jump to an academic year**
+
+[2025-2026](#2025-2026) | [2024-2025](#2024-2025) | [2023-2024](#2023-2024) | [2022-2023](#2022-2023) |
+[2021-2022](#2021-2022) | [2020-2021](#2020-2021) | [2019-2020](#2019-2020) | [2018-2019](#2018-2019) |
+[2017-2018](#2017-2018) | [2016-2017](#2016-2017) | [2015-2016](#2015-2016) | [2014-2015](#2014-2015) | [2013-2014](#2013-2014)
 
 ## How to read the reports
 

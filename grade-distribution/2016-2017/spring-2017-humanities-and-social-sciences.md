@@ -21,6 +21,8 @@ PDF page 5.
 
 ## Detailed grade distributions
 
+[Anthropology](#anthropology-spring-2017) | [Economics](#economics-spring-2017) | [History](#history-spring-2017) | [Political Science and International Relations](#political-science-and-international-relations-spring-2017) | [Sociology](#sociology-spring-2017) | [Kazakh Language, Literature and Culture](#kazakh-language-literature-and-culture-spring-2017) | [World Languages, Literature and Cultures](#world-languages-literature-and-cultures-spring-2017) | [Communication](#communication-spring-2017) | [Other Courses in Humanities and Social Sciences](#other-courses-in-humanities-and-social-sciences-spring-2017)
+
 ### Anthropology (Spring 2017)
 
 PDF pages 21 to 22.

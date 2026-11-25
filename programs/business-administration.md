@@ -1,10 +1,16 @@
 # BBA in Business Administration
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Program total** 240 ECTS in the 2024 intake handbook.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
 The Graduate School of Business currently lists a 242 ECTS minimum, made up of 74 ECTS in the university core, 120 in BBA courses, and 48 in non-business electives. [Current BBA curriculum](https://gsb.nu.edu.kz/bbacoursedescription)
 
 The school also offers a joint BBA in Eurasian Business with the Hong Kong University of Science and Technology. Students spend the first two years at NU and the last two at HKUST. [Joint BBA program](https://gsb.nu.edu.kz/bbaeabu)
 
-The requirements and course plan below come from the 2024 intake handbook. [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+[Major confirmation](#major-confirmation) | [Business foundation and prerequisites](#business-foundation-and-prerequisites) | [Major core and prerequisites](#major-core-and-prerequisites) | [University core and degree total](#university-core-and-degree-total) | [Recommended course plan](#recommended-course-plan) | [Advanced electives](#advanced-electives) | [Differences within the handbook](#differences-within-the-handbook)
 
 ## Major confirmation
 
@@ -34,29 +40,6 @@ By the end of year 1, be in good academic standing and pass BUS 101, ECON 101, M
 | Operations Management | 6 | BUS 101 |
 | Data Analytics for Business | 6 | TBD |
 | Capstone | 6 | All Major Core Courses |
-
-## Advanced electives
-
-The advanced elective requirement is 30 ECTS. The handbook gives these examples.
-
-- Internship
-- International Management & Strategy
-- BUS 420 - Business Law
-- Global Leadership Perspectives
-- Financial Statement Analysis
-- Digital Business Management
-- Auditing
-- Doing Business in China
-- Econometrics
-- Human Resource Management
-- Corporate Finance
-- Social Entrepreneurship
-- Private Equity & Venture Capital
-- Consumer Behavior
-- Socially Responsible Investing & Islamic<br>Finance
-- Market Research
-- Fintech
-- Project Management
 
 ## University core and degree total
 
@@ -177,6 +160,29 @@ Grades shown are the progression minimums listed in the handbook. A blank grade 
 - ECON 101 requires B- for ECON 201 and C for ECON 211.
 - MATH 161 requires C for MATH 162 and B- for ECON 201 or ECON 202.
 - For the starred Kazakh course, D is sufficient at the Advanced level. Other students need C- to meet the prerequisite.
+
+## Advanced electives
+
+The advanced elective requirement is 30 ECTS. The handbook gives these examples.
+
+- Internship
+- International Management & Strategy
+- BUS 420 - Business Law
+- Global Leadership Perspectives
+- Financial Statement Analysis
+- Digital Business Management
+- Auditing
+- Doing Business in China
+- Econometrics
+- Human Resource Management
+- Corporate Finance
+- Social Entrepreneurship
+- Private Equity & Venture Capital
+- Consumer Behavior
+- Socially Responsible Investing & Islamic<br>Finance
+- Market Research
+- Fintech
+- Project Management
 
 ## Differences within the handbook
 

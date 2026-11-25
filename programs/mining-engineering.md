@@ -1,6 +1,12 @@
 # BSc in Mining Engineering
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
 **Program total** 250 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Recommended course plan](#recommended-course-plan) | [Technical electives](#technical-electives) | [Mining Engineering minor](#mining-engineering-minor)
 
 ## Recommended course plan
 

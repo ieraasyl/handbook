@@ -1,5 +1,11 @@
 # BA in Economics
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Program total** 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
 ## Major declaration and transfer
 
 Declare after the first two semesters. By the end of spring, earn B- or higher in ECON 101, ECON 102, and MATH 161, and have a GPA of at least 2.75. The handbook allows one retake in ECON 101 and/or ECON 102.

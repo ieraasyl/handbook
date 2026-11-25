@@ -23,6 +23,8 @@ PDF page 4.
 
 ## Detailed grade distributions
 
+[Biological Sciences](#biological-sciences) | [Chemistry](#chemistry) | [Mathematics](#mathematics) | [Physics](#physics) | [Economics](#economics) | [History, Philosophy and Religious Studies](#history-philosophy-and-religious-studies) | [Kazakh Language and Turkic Studies](#kazakh-language-and-turkic-studies) | [Languages, Literature and Linguistics](#languages-literature-and-linguistics) | [Political Science and International Relations](#political-science-and-international-relations) | [Sociology and Anthropology](#sociology-and-anthropology) | [Other SSH courses](#other-ssh-courses)
+
 ### Biological Sciences
 
 PDF pages 32 to 33.

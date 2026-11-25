@@ -23,6 +23,8 @@ PDF page 4.
 
 ## Detailed grade distributions
 
+[Biological Sciences](#biological-sciences-fall-2023) | [Chemistry](#chemistry-fall-2023) | [Mathematics](#mathematics-fall-2023) | [Physics](#physics-fall-2023) | [Economics](#economics-fall-2023) | [History, Philosophy and Religious Studies](#history-philosophy-and-religious-studies-fall-2023) | [Kazakh Language and Turkic Studies](#kazakh-language-and-turkic-studies-fall-2023) | [Languages, Literature and Linguistics](#languages-literature-and-linguistics-fall-2023) | [Political Science and International Relations](#political-science-and-international-relations-fall-2023) | [Sociology and Anthropology](#sociology-and-anthropology-fall-2023) | [Other Sciences and Humanities Courses](#other-sciences-and-humanities-courses-fall-2023)
+
 ### Biological Sciences (Fall 2023)
 
 PDF pages 31 to 32.

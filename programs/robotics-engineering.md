@@ -1,6 +1,12 @@
 # BSc in Robotics Engineering
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
 **Program total** 246 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Recommended course plan](#recommended-course-plan) | [Technical electives](#technical-electives) | [Natural science electives](#natural-science-electives)
 
 ## Recommended course plan
 
@@ -100,10 +106,6 @@ Grades shown are the progression minimums listed in the handbook. A blank grade 
 
 For the starred Kazakh course, D is sufficient at the Advanced level. Other students need C- to meet the prerequisite.
 
-## Natural science electives
-
-Natural science electives are courses at the 100 level or higher in Physics, Chemistry, Biology, or Geology. Courses designated for non-science majors are excluded.
-
 ## Technical electives
 
 Choose from the listed ROBT courses. The handbook also allows a SEDS or MATH course at the 200 level or above with advisor consent.
@@ -117,5 +119,9 @@ Choose from the listed ROBT courses. The handbook also allows a SEDS or MATH cou
 | 5 | ROBT 407 Machine Learning with Applications | 6 |
 | 6 | ROBT 414 Human-Robot Interaction | 6 |
 |  | Total | 36 |
+
+## Natural science electives
+
+Natural science electives are courses at the 100 level or higher in Physics, Chemistry, Biology, or Geology. Courses designated for non-science majors are excluded.
 
 Handbook pages 67 and 71 to 73. [Canva source](https://www.canva.com/design/DAGH5nfr2_Q/CZO4-kHrZNWEcjjPjo2lVw/view)

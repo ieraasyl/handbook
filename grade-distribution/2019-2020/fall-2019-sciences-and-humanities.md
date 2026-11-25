@@ -23,6 +23,8 @@ PDF page 5.
 
 ## Detailed grade distributions
 
+[Biological Sciences](#biological-sciences-fall-2019) | [Chemistry](#chemistry-fall-2019) | [Math](#math-fall-2019) | [Physics](#physics-fall-2019) | [Economics](#economics-fall-2019) | [History, Philosophy and Religious Studies](#history-philosophy-and-religious-studies-fall-2019) | [Kazakh Language and Turkic Studies](#kazakh-language-and-turkic-studies-fall-2019) | [Languages, Literature and Linguistics](#languages-literature-and-linguistics-fall-2019) | [Political Science and International Relations](#political-science-and-international-relations-fall-2019) | [Sociology and Anthropology](#sociology-and-anthropology-fall-2019) | [Other Sciences and Humanities Courses](#other-sciences-and-humanities-courses-fall-2019)
+
 ### Biological Sciences (Fall 2019)
 
 PDF pages 30 to 31.

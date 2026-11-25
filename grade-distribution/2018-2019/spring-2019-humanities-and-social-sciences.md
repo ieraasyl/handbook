@@ -19,6 +19,8 @@ PDF page 5.
 
 ## Detailed grade distributions
 
+[Communication and Composition](#communication-and-composition-spring-2019) | [Economics](#economics-spring-2019) | [History, Philosophy and Religious Studies](#history-philosophy-and-religious-studies-spring-2019) | [Kazakh Language and Turkic Studies](#kazakh-language-and-turkic-studies-spring-2019) | [Languages, Literature and Linguistics](#languages-literature-and-linguistics-spring-2019) | [Political Science and International Relations](#political-science-and-international-relations-spring-2019) | [Sociology and Anthropology](#sociology-and-anthropology-spring-2019)
+
 ### Communication and Composition (Spring 2019)
 
 PDF pages 21 to 22.

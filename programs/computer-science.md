@@ -1,6 +1,12 @@
 # BSc in Computer Science
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
 **Program total** 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Transfer requirements](#transfer-requirements) | [Recommended course plan](#recommended-course-plan) | [Technical electives](#technical-electives) | [Natural science electives](#natural-science-electives)
 
 ## Transfer requirements
 

@@ -1,5 +1,13 @@
 # BSc in Biological Sciences
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Program total** 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Major confirmation and second-year transfer](#major-confirmation-and-second-year-transfer) | [Major requirements](#major-requirements) | [Core and elective requirements](#core-and-elective-requirements) | [Recommended course plan](#recommended-course-plan) | [Honors option](#honors-option) | [Biological Sciences minor](#biological-sciences-minor)
+
 ## Major confirmation and second-year transfer
 
 Students enter their preferred science major. The university checks progression at the end of spring. Students who fall short can retake courses in summer, change major, or become undeclared. Passing the summer retakes confirms the major. Students who still fall short may change major, become undeclared, withdraw, or be dismissed.

@@ -1,5 +1,11 @@
 # BA in Sociology
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Program total** 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
 ## Major declaration
 
 Declare after the first two semesters. Pass at least one SOC course with C or higher by the end of spring.

@@ -21,6 +21,8 @@ PDF page 5.
 
 ## Detailed grade distributions
 
+[Anthropology](#anthropology-fall-2016) | [Economics](#economics-fall-2016) | [History](#history-fall-2016) | [Political Science and International Relations](#political-science-and-international-relations-fall-2016) | [Sociology](#sociology-fall-2016) | [Kazakh Language, Literature and Culture](#kazakh-language-literature-and-culture-fall-2016) | [World Languages, Literature and Cultures](#world-languages-literature-and-cultures-fall-2016) | [Communication](#communication-fall-2016) | [Other Courses in Humanities and Social Sciences](#other-courses-in-humanities-and-social-sciences-fall-2016)
+
 ### Anthropology (Fall 2016)
 
 PDF page 20.

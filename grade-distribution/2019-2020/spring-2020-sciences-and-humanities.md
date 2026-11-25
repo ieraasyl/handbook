@@ -23,6 +23,8 @@ PDF page 5.
 
 ## Detailed grade distributions
 
+[Biological Sciences](#biological-sciences-spring-2020) | [Chemistry](#chemistry-spring-2020) | [Math](#math-spring-2020) | [Physics](#physics-spring-2020) | [Economics](#economics-spring-2020) | [History, Philosophy and Religious Studies](#history-philosophy-and-religious-studies-spring-2020) | [Kazakh Language and Turkic Studies](#kazakh-language-and-turkic-studies-spring-2020) | [Languages, Literature and Linguistics](#languages-literature-and-linguistics-spring-2020) | [Political Science and International Relations](#political-science-and-international-relations-spring-2020) | [Sociology and Anthropology](#sociology-and-anthropology-spring-2020) | [Other Sciences and Humanities Courses](#other-sciences-and-humanities-courses-spring-2020)
+
 ### Biological Sciences (Spring 2020)
 
 PDF pages 30 to 31.

@@ -1,5 +1,13 @@
 # BSc in Chemistry
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Recommended plan total** 242 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Major confirmation and second-year transfer](#major-confirmation-and-second-year-transfer) | [Major requirements](#major-requirements) | [Core requirements](#core-requirements) | [Recommended course plan](#recommended-course-plan) | [Major elective options](#major-elective-options) | [Chemistry minor](#chemistry-minor)
+
 ## Major confirmation and second-year transfer
 
 Students enter their preferred science major. The university checks progression at the end of spring. Students who fall short can retake courses in summer, change major, or become undeclared. Passing the summer retakes confirms the major. Students who still fall short may change major, become undeclared, withdraw, or be dismissed.
@@ -56,25 +64,6 @@ Earn C or higher in CHEM 102 by the end of summer. The department may apply addi
 | Business course (BUS 101) | 6 |
 | Total Core Courses Credits | 78 |
 | Total Degree Credits | 242 |
-
-## Major elective options
-
-| Course | ECTS |
-| --- | --- |
-| CHEM 410 Structural Spectroscopy | 6 |
-| CHEM 411 Advanced Organic Chemistry I | 6 |
-| CHEM 412 Advanced Organic Chemistry II | 12 |
-| CHEM 431 Computational Chemistry | 6 |
-| CHEM 432 Introduction to Cheminformatics and Computer-Based Drug Design | 8 |
-| CHEM 433 Surfactants and Colloids | 6 |
-| CHEM 442 Biochemistry II | 8 |
-| CHEM 451 Applied Homogeneous Catalysis | 8 |
-| CHEM 471 Environmental Chemistry | 6 |
-| CHEM 490 Nanochemistry | 6 |
-| CHEM 493 Honors Thesis Research* | 6 |
-| CHEM 494 Honors Thesis* | 6 |
-
-The handbook makes CHEM 493 and CHEM 494 contingent on establishment of the honors degree framework. Major courses require C- or higher unless specified otherwise.
 
 ## Recommended course plan
 
@@ -186,6 +175,25 @@ Grades shown are the progression minimums listed in the handbook. A blank grade 
 For the starred Kazakh course, D is sufficient at the Advanced level. Other students need C- to meet the prerequisite.
 
 The recommended plan totals 242 ECTS. Page 36 describes general electives against a 240 ECTS minimum.
+
+## Major elective options
+
+| Course | ECTS |
+| --- | --- |
+| CHEM 410 Structural Spectroscopy | 6 |
+| CHEM 411 Advanced Organic Chemistry I | 6 |
+| CHEM 412 Advanced Organic Chemistry II | 12 |
+| CHEM 431 Computational Chemistry | 6 |
+| CHEM 432 Introduction to Cheminformatics and Computer-Based Drug Design | 8 |
+| CHEM 433 Surfactants and Colloids | 6 |
+| CHEM 442 Biochemistry II | 8 |
+| CHEM 451 Applied Homogeneous Catalysis | 8 |
+| CHEM 471 Environmental Chemistry | 6 |
+| CHEM 490 Nanochemistry | 6 |
+| CHEM 493 Honors Thesis Research* | 6 |
+| CHEM 494 Honors Thesis* | 6 |
+
+The handbook makes CHEM 493 and CHEM 494 contingent on establishment of the honors degree framework. Major courses require C- or higher unless specified otherwise.
 
 ## Chemistry minor
 

@@ -1,5 +1,11 @@
 # BA in Political Science and International Relations
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
+**Program total** 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
 ## Major declaration
 
 Declare after the first two semesters. By the end of spring, pass two of PLS 120, PLS 140, and PLS 150 with C or higher.

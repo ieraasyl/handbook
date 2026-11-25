@@ -1,6 +1,12 @@
 # BSc in Medical Sciences
 
+**2024 intake handbook.** [Official handbooks by intake](https://aao.nu.edu.kz/handbook)
+
 **Program total** At least 240 ECTS.
+
+[Program index](../README.md#programs-by-school) | [Shared core requirements](../degree-and-core-requirements.md)
+
+[Year 1](#year-1) | [Year 2](#year-2) | [Year 3](#year-3) | [Year 4](#year-4)
 
 ## Recommended course plan
 
